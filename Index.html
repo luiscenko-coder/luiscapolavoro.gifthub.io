@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+
+<html lang="it">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Impegnato</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Cormorant+Garamond:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<style>
+    :root {
+      --bg: #f3ecd9;
+      --paper: #fffdf8;
+      --ink: #1f1a14;
+      --muted: #6f665b;
+      --line: #d8cdb9;
+      --accent: #7a1f1f;
+      --accent-2: #9a6b2f;
+      --soft: #ede4d3;
+      --shadow: 0 18px 45px rgba(31, 26, 20, .08);
+      --spacing: 1.4rem;
+      --line-height: 1.7;
+    }
+    [data-theme="dark"] {
+      --bg: #171410;
+      --paper: #1f1a15;
+      --ink: #f1e9dc;
+      --muted: #b0a796;
+      --line: #3a3228;
+      --accent: #d08a6a;
+      --accent-2: #d6b07a;
+      --soft: #251f18;
+      --shadow: 0 18px 45px rgba(0, 0, 0, .35);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(154,107,47,.12), transparent 28%),
+        var(--bg);
+      color: var(--ink);
+      line-height: var(--line-height);
+    }
+    p {
+      margin: 0 0 var(--spacing);
+    }
+    p:last-child {
+      margin-bottom: 0;
+    }
+    .skip { position: absolute; left: -999px; top: 0; }
+    .skip:focus { left: 16px; top: 16px; background: var(--paper); padding: .75rem 1rem; z-index: 10; }
+
+    .wrap {
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: clamp(10px, 3vw, 20px);
+    }
+    .paper {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    header {
+      border-bottom: 3px double var(--ink);
+      padding: clamp(16px, 4vw, 24px);
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .masthead h1 {
+      margin: 0;
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(2.5rem, 8vw, 5.5rem);
+      line-height: .9;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .masthead p { margin: 8px 0 0; color: var(--muted); font-size: clamp(.85rem, 2vw, .95rem); }
+    .meta { text-align: right; font-size: clamp(.85rem, 2vw, .95rem); color: var(--muted); }
+    .meta strong { display: block; color: var(--ink); text-transform: uppercase; letter-spacing: .12em; margin-bottom: 4px; }
+    .toolbar { display: flex; gap: 10px; align-items: center; margin-top: 12px; }
+    .theme-btn {
+      min-height: 44px; min-width: 44px; padding: 0 16px;
+      border: 1px solid var(--line); background: var(--paper); color: var(--ink);
+      border-radius: 999px; font-weight: 700; cursor: pointer; transition: all 0.2s;
+    }
+    .theme-btn:hover { background: var(--soft); }
+
+    main { padding: clamp(16px, 4vw, 24px); }
+
+    .front {
+      display: grid;
+      grid-template-columns: 1.4fr .8fr;
+      gap: clamp(16px, 4vw, 24px);
+    }
+    article, aside, .notes, .pullquote {
+      background: color-mix(in oklab, var(--paper) 92%, var(--soft));
+      border: 1px solid var(--line);
+    }
+
+    article { padding: clamp(16px, 4vw, 24px); }
+    article h2 {
+      margin: 0 0 calc(var(--spacing) * 0.8);
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(1.8rem, 5vw, 3.3rem);
+      line-height: 1.1;
+      color: var(--ink);
+    }
+    .deck {
+      margin: 0 0 var(--spacing);
+      font-style: italic;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+    .byline {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: .9rem;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 12px 0;
+      margin-bottom: calc(var(--spacing) * 1.5);
+    }
+
+    .article-text {
+      columns: 2;
+      column-gap: 32px;
+      text-align: justify;
+      hyphens: auto;
+      -webkit-hyphens: auto;
+    }
+    .article-text p {
+      break-inside: avoid;
+    }
+
+    .dropcap:first-letter {
+      float: left;
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(3.5rem, 8vw, 4.5rem);
+      line-height: .75;
+      padding: .1em .15em 0 0;
+      color: var(--accent);
+    }
+    .pullquote {
+      padding: clamp(16px, 3vw, 24px);
+      margin: calc(var(--spacing) * 1.5) 0;
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(1.3rem, 3vw, 1.7rem);
+      line-height: 1.4;
+      color: var(--accent);
+      background: color-mix(in oklab, var(--soft) 55%, var(--paper));
+      text-align: center;
+      break-inside: avoid;
+    }
+    .pullquote span {
+      display: block;
+      font-family: Inter, system-ui, sans-serif;
+      font-size: .85rem;
+      color: var(--muted);
+      margin-top: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    aside {
+      padding: clamp(16px, 4vw, 24px);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .box h3, .notes h3 {
+      margin: 0 0 10px;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--accent);
+    }
+    .box p, .notes li { color: var(--muted); }
+    .box { border-bottom: 1px solid var(--line); padding-bottom: 20px; }
+
+    .tag {
+      display: inline-block; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px;
+      font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-2);
+      margin-bottom: 16px;
+    }
+
+    .notes { margin-top: clamp(16px, 4vw, 24px); padding: clamp(16px, 4vw, 24px); }
+    .notes ul { margin: 12px 0 0; padding-left: 20px; display: flex; flex-direction: column; gap: 10px; }
+
+    footer {
+      padding: 0 clamp(16px, 4vw, 24px) clamp(16px, 4vw, 24px);
+      color: var(--muted);
+      font-size: .9rem;
+      text-align: center;
+    }
+
+    a { color: var(--accent-2); text-decoration: none; border-bottom: 1px dotted var(--accent-2); transition: color 0.2s; }
+    a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+    @media (max-width: 900px) {
+      .front { grid-template-columns: 1fr; }
+      .meta { text-align: left; }
+      .toolbar { justify-content: flex-start; }
+      header { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (max-width: 600px) {
+      .article-text {
+        columns: 1;
+        text-align: left;
+        hyphens: none;
+      }
+      .byline { flex-direction: column; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+<a class="skip" href="#contenuto">Salta al contenuto</a>
+<div class="wrap">
+<div class="paper">
+<header>
+<div class="masthead">
+<h1>Impegnato</h1>
+<p>Giornale scolastico • Filosofia, società e attualità</p>
+</div>
+<div class="meta">
+<strong>Edizione speciale</strong>
+          11 maggio 2026 • Milano
+      </div></header>
+<main id="contenuto">
+<section class="front">
+<article>
+<span class="tag">Articolo principale</span>
+<h2>L’alienazione esiste ancora? Una riflessione filosofica e sociologica sul lavoro contemporaneo</h2>
+<p class="deck">Marx, Jaeggi, Sennett e Han per leggere il lavoro di oggi tra precarietà, prestazione e perdita di senso.</p>
+<div class="byline">
+<span>Di: Luis Cenko</span>
+<span>Sezione: Filosofia e società</span>
+</div>
+<div class="article-text">
+<p class="dropcap">Durante un’esperienza di PCTO mi è capitato, per la prima volta in modo concreto, di percepire il lavoro non come realizzazione, ma come distanza. Non tanto per la fatica in sé, quanto per il carattere ripetitivo delle mansioni, per la sensazione di non riconoscermi in ciò che facevo e per l’impressione che il tempo trascorso lì non producesse alcuna crescita reale. Da questa esperienza è nata una domanda che va molto oltre il singolo stage: l’alienazione, di cui parlava Marx, esiste ancora oggi?</p>
+<p>La domanda può sembrare legata a un mondo ormai passato, quello della fabbrica ottocentesca e della rivoluzione industriale. Eppure, proprio osservando il lavoro contemporaneo, si ha l’impressione che l’alienazione non sia affatto scomparsa. Piuttosto, ha cambiato forma: meno visibile forse, meno brutale in certi casi, ma non meno profonda. Per comprenderla, bisogna partire da Marx e poi mettere il suo pensiero in dialogo con alcune analisi contemporanee.</p>
+<p><strong>Marx: il lavoro come estraniazione.</strong> Nei <a href="https://www.bollettinoadapt.it/percorsi-di-lettura-sul-lavoro-9-manoscritti-economico-filosofici-del-1844-di-karl-marx/" target="_blank">Manoscritti economico-filosofici del 1844</a>, Marx descrive l’alienazione come la condizione in cui il lavoratore si trova separato dal prodotto del proprio lavoro, dall’attività che svolge, dalla propria essenza umana e dagli altri uomini. Il punto decisivo è che il lavoro, invece di essere il luogo in cui l’uomo si esprime e si realizza, diventa il luogo della sua perdita.</p>
+<p>Per Marx il lavoro dovrebbe essere un’attività vitale, cioè un modo attraverso cui l’essere umano oggettiva sé stesso nel mondo. Nel sistema capitalistico, però, questa possibilità viene rovesciata: il prodotto appartiene al capitalista, l’attività diventa mezzo di sopravvivenza e il lavoratore si sente esterno a ciò che fa. Non lavora per esprimersi, ma per continuare a vivere. Per questo l’alienazione è insieme economica, sociale e antropologica.</p>
+<div class="pullquote">
+              “Il lavoratore si sente presso di sé fuori del lavoro, e fuori di sé nel lavoro.”
+              <span><a href="https://it.wikipedia.org/wiki/Karl_Marx" target="_blank">Karl Marx</a></span>
+</div>
+<p><strong><a href="https://en.wikipedia.org/wiki/Rahel_Jaeggi" target="_blank">Rahel Jaeggi</a>: l’alienazione come rapporto distorto con sé.</strong> Una prima reinterpretazione contemporanea arriva da <a href="https://en.wikipedia.org/wiki/Rahel_Jaeggi" target="_blank">Rahel Jaeggi</a>, che nel saggio <em><a href="https://www.castelvecchieditore.com/prodotto/nuovi-lavori-nuove-alienazioni/" target="_blank">Nuovi lavori, nuove alienazioni</a></em> mostra come l’alienazione non vada intesa solo come sfruttamento economico, ma come incapacità di riconoscersi nelle proprie azioni, nei propri desideri e nel proprio modo di vivere. Una persona è alienata quando conduce una vita che sente estranea, pur essendone formalmente protagonista.</p>
+<p>Questa lettura è importante perché descrive molto bene molte forme del lavoro attuale. Si può essere alienati anche in contesti apparentemente liberi, creativi o autonomi, quando si interiorizzano modelli di efficienza, competitività e prestazione che svuotano il rapporto con sé stessi. In questo senso, l’alienazione non è più soltanto un’imposizione dall’esterno, ma diventa anche una forma di autoestraneazione.</p>
+<p><strong><a href="https://it.wikipedia.org/wiki/Richard_Sennett" target="_blank">Richard Sennett</a>: la precarietà e l’erosione del sé.</strong> Anche <a href="https://it.wikipedia.org/wiki/Richard_Sennett" target="_blank">Richard Sennett</a>, nel suo libro <em><a href="https://www.feltrinellieditore.it/opera/luomo-flessibile-1-2/" target="_blank">L’uomo flessibile</a></em>, mostra come il nuovo capitalismo abbia modificato profondamente l’esperienza soggettiva del lavoro. In un sistema che richiede continua adattabilità, mobilità e disponibilità al cambiamento, diventa difficile costruire una narrazione coerente della propria vita.</p>
+<p>Il lavoratore flessibile è costretto a reinventarsi continuamente, ma questa apparente libertà produce spesso frammentazione. Se non è possibile dare continuità al proprio percorso, anche l’identità si indebolisce. L’alienazione, allora, non si manifesta più soltanto nella perdita del prodotto del lavoro, ma nella perdita di una forma stabile del sé.</p>
+<p><strong><a href="https://it.wikipedia.org/wiki/Byung-Chul_Han" target="_blank">Byung-Chul Han</a>: la società della prestazione.</strong> In questa linea si inserisce anche <a href="https://it.wikipedia.org/wiki/Byung-Chul_Han" target="_blank">Byung-Chul Han</a>, che in <em><a href="https://www.edizioninottetempo.it/it/la-societao-della-stanchezza" target="_blank">Società della stanchezza</a></em> descrive il passaggio da una società disciplinare a una società della prestazione. Oggi, sostiene Han, non siamo più oppressi principalmente da divieti esterni, ma dalla richiesta costante di migliorarci, essere produttivi, ottimizzare noi stessi.</p>
+<p>Questo modello genera individui che si sfruttano da soli, convinti di essere liberi. La stanchezza, il burnout e il senso di inadeguatezza diventano i sintomi di una nuova forma di alienazione, più sottile perché interiorizzata. Il soggetto non si sente dominato da un altro, ma da sé stesso in quanto impresa.</p>
+<p>Se si guarda al presente, è difficile negare che l’alienazione esista ancora. Compare nel lavoro precario che impedisce di progettare il futuro, nei tirocini vissuti come semplice impiego del tempo, nei lavori frammentati della gig economy, ma anche nell’ansia da performance che attraversa studenti, lavoratori e professionisti. Non sempre assume la forma estrema descritta da Marx, ma conserva lo stesso nucleo: la separazione dell’individuo da ciò che fa, da ciò che è e da ciò che potrebbe essere.</p>
+<p>Per questo l’idea di alienazione non va archiviata come un concetto del passato. Al contrario, resta uno strumento critico potente per leggere il presente. Marx ci fornisce ancora la struttura del problema; Jaeggi, Sennett e Han ci aiutano a riconoscerne le forme nuove. Capire l’alienazione oggi significa allora interrogarsi non solo sulle condizioni economiche del lavoro, ma anche sulla qualità umana delle nostre vite.</p>
+</div>
+</article>
+<aside>
+<div class="box">
+<h3>Perché è attuale</h3>
+<p>Il lavoro contemporaneo non è soltanto produzione: è identità, tempo, aspettativa sociale. Per questo l’alienazione tocca ancora l’esperienza quotidiana.</p>
+</div>
+<div class="box">
+<h3>Parole chiave</h3>
+<p>Alienazione • Precarietà • Prestazione • Auto-sfruttamento • Identità</p>
+</div>
+<div class="box">
+<h3>Tesi</h3>
+<p>L’alienazione non è scomparsa con la fabbrica industriale: si è trasformata, assumendo forme più interiori, flessibili e psicologiche.</p>
+</div>
+<div class="box">
+<h3>Spunto personale</h3>
+<p>Un’esperienza concreta di PCTO può diventare occasione per riflettere filosoficamente sul significato del lavoro e sul rapporto tra individuo e attività lavorativa.</p>
+</div>
+</aside>
+</section>
+<section class="notes">
+<h3>Riferimenti essenziali</h3>
+<ul>
+<li><a href="https://it.wikipedia.org/wiki/Karl_Marx" target="_blank">Karl Marx</a>, <a href="https://www.bollettinoadapt.it/percorsi-di-lettura-sul-lavoro-9-manoscritti-economico-filosofici-del-1844-di-karl-marx/" target="_blank">Manoscritti economico-filosofici del 1844</a>, Einaudi, Torino.</li>
+<li><a href="https://en.wikipedia.org/wiki/Rahel_Jaeggi" target="_blank">Rahel Jaeggi</a>, <em><a href="https://www.castelvecchieditore.com/prodotto/nuovi-lavori-nuove-alienazioni/" target="_blank">Nuovi lavori, nuove alienazioni</a></em>, Castelvecchi, Roma.</li>
+<li><a href="https://it.wikipedia.org/wiki/Richard_Sennett" target="_blank">Richard Sennett</a>, <em><a href="https://www.feltrinellieditore.it/opera/luomo-flessibile-1-2/" target="_blank">L’uomo flessibile. Le conseguenze del nuovo capitalismo sulla vita personale</a></em>, Feltrinelli, Milano.</li>
+<li><a href="https://it.wikipedia.org/wiki/Byung-Chul_Han" target="_blank">Byung-Chul Han</a>, <em><a href="https://www.edizioninottetempo.it/it/la-societao-della-stanchezza" target="_blank">La società della stanchezza</a></em>, Nottetempo, Roma.</li>
+</ul>
+</section>
+</main>
+<footer>
+      Impegnato giornale.
+    </footer>
+</div>
+</div>
+</body>
+</html>
